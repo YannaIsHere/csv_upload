@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:csv_upload/Widgets/wcf_safety_consultants.dart';
-import 'package:csv_upload/Widgets/policy_numbers.dart';
+import 'package:csv_upload/widgets/wcf_safety_consultants.dart';
+import 'package:csv_upload/widgets/policy_numbers.dart';
 import 'safety_consultants_screen.dart';
 import 'locations_screen.dart';
 

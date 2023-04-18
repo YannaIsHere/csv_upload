@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:csv_upload/Widgets/locations_table.dart';
+import 'package:csv_upload/widgets/locations_table.dart';
 
 class LocationsScreen extends StatefulWidget {
   final Future<Map<String, dynamic>> jsonMap;

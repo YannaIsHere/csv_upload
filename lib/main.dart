@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import  'Screens/cvs_screen.dart';
+import  'screens/cvs_screen.dart';
 
 void main() => runApp(const MyApp());
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:csv_upload/Widgets/safety_consultants_table.dart';
+import 'package:csv_upload/widgets/safety_consultants_table.dart';
 
 class SafetyConsultantsScreen extends StatefulWidget {
   final Future<Map<String, dynamic>> jsonMap;
