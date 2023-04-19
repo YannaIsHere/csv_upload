@@ -19,6 +19,7 @@ class _CsvScreenState extends State<CsvScreen> {
   late String? fileName;
   Uint8List? fileBytes;
   bool isButtonEnabled = false;
+  late bool _displayAccountsScreen = false;
 
   void _loadCSVData(String csvData) {
     List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
@@ -47,7 +48,7 @@ class _CsvScreenState extends State<CsvScreen> {
       appBar: AppBar(
         title: const Text('CSV Upload'),
       ),
-      body: SingleChildScrollView(
+      body: _displayAccountsScreen ? AccountsScreen(jsonMap: uploadCsvFile(fileBytes!, fileName)) : SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
@@ -59,10 +60,6 @@ class _CsvScreenState extends State<CsvScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: _csvTableData(_tableData),
                 ),
-                // child: SingleChildScrollView(
-                //   scrollDirection: Axis.vertical,
-                //   child: _csvTableData(_tableData),
-                // ),
               ),
               const SizedBox(
                 height: 20,
@@ -71,15 +68,8 @@ class _CsvScreenState extends State<CsvScreen> {
               ElevatedButton(
                 onPressed: isButtonEnabled
                     ? () {
-                      //usually don't need set state, furthur state management
-                      //just change the document
                         setState(() {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AccountsScreen(
-                                      jsonMap:
-                                          uploadCsvFile(fileBytes!, fileName))));
+                          _displayAccountsScreen = !_displayAccountsScreen;
                         });
                       }
                     : null,
@@ -105,6 +95,7 @@ class _CsvScreenState extends State<CsvScreen> {
               setState(() {
                 _tableData = [];
                 isButtonEnabled = false;
+                _displayAccountsScreen = false;
               });
             },
             tooltip: 'Clear Table',

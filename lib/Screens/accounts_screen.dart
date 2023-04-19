@@ -1,41 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:csv_upload/widgets/wcf_safety_consultants.dart';
 import 'package:csv_upload/widgets/policy_numbers.dart';
-import 'safety_consultants_screen.dart';
-import 'locations_screen.dart';
+// import 'safety_consultants_screen.dart';
+// import 'locations_screen.dart';
 
-class AccountsScreen extends StatefulWidget {
+
+class AccountsScreen extends StatelessWidget{
   final Future<Map<String, dynamic>> jsonMap;
-  const AccountsScreen({super.key, required this.jsonMap});
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _AccountsScreenState createState() => _AccountsScreenState();
-}
-
-class _AccountsScreenState extends State<AccountsScreen> {
-  late final Future<Map<String, dynamic>> _jsonMap;
-
-  @override
-  void initState() {
-    _jsonMap = widget.jsonMap;
-    super.initState();
-  }
+  const AccountsScreen({Key? key, required this.jsonMap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Title(
-          color: Colors.blue,
-          child: const Text('Accounts Page'),
-        ),
-      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             FutureBuilder(
-              future: _jsonMap,
+              future: jsonMap,
               builder: ((context, snapshot) {
                 Title(color: Colors.black, child: const Text('Account'));
                 if (snapshot.hasData) {
@@ -55,38 +36,38 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 }
               }),
             ),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    SafetyConsultantsScreen(jsonMap: _jsonMap)));
-                      });
-                    },
-                    child: const Text('Safety Consultants'),
-                  ),
-                  const SizedBox(width: 20,),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    LocationsScreen(jsonMap: _jsonMap)));
-                      });
-                    },
-                    child: const Text('Locations'),
-                  ),
-                ],
-              ),
-            ),
+            // Center(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       ElevatedButton(
+            //         onPressed: () {
+            //           setState(() {
+            //             Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) =>
+            //                         SafetyConsultantsScreen(jsonMap: _jsonMap)));
+            //           });
+            //         },
+            //         child: const Text('Safety Consultants'),
+            //       ),
+            //       const SizedBox(width: 20,),
+            //       ElevatedButton(
+            //         onPressed: () {
+            //           setState(() {
+            //             Navigator.push(
+            //                 context,
+            //                 MaterialPageRoute(
+            //                     builder: (context) =>
+            //                         LocationsScreen(jsonMap: _jsonMap)));
+            //           });
+            //         },
+            //         child: const Text('Locations'),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
