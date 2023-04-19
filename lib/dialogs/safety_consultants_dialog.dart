@@ -50,27 +50,28 @@ class SafetyConsultantsDialog extends StatelessWidget {
   Widget _safetyConsultantsInformation(List<dynamic> data) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-            child: Text(
-              'SAFETY CONSULTANTS TABLE',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          SafetyConsultantsTable(
-            rows: List.generate(
-              data.length,
-              (index) {
-                final consultant = data[index] as Map<String, dynamic>;
-                final id = consultant['_id'];
-                final firstName = consultant['firstName'];
-                final lastName = consultant['lastName'];
-                final email = consultant['role'];
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+                child: Text(
+                  'LOCATIONS TABLE',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              SafetyConsultantsTable(
+                rows: data.map((consultant) {
+                  final id = consultant['_id'];
+                  final firstName = consultant['firstName'];
+                  final lastName = consultant['lastName'];
+                  final email = consultant['role'];
 
-                return TableRow(
+                  return TableRow(
                   children: [
                     TableCell(
                       child: Padding(
@@ -98,13 +99,14 @@ class SafetyConsultantsDialog extends StatelessWidget {
                     ),
                   ],
                 );
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-        ],
+                }).toList(),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+            ],
+          );
+        },
       ),
     );
   }

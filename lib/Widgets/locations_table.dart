@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class LocationsTable extends StatelessWidget {
-  List<TableRow>? rows;
-  LocationsTable({super.key, this.rows});
+  List<TableRow> rows;
+  LocationsTable({super.key,required this.rows});
   
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class LocationsTable extends StatelessWidget {
             ),
           ],
         ),
-        ...?rows,
+        ...rows,
       ],
     );
   }

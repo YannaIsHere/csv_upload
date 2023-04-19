@@ -45,52 +45,53 @@ class LocationsDialog extends StatelessWidget {
     );
   }
 
-  Widget _locationsInformation(List<dynamic> data){
+  Widget _locationsInformation(List<dynamic> data) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 30,
-            child: Text(
-              'LOCATIONS TABLE',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-          LocationsTable(
-            rows: List.generate(
-              data.length,
-              (index) {
-                final consultant = data[index] as Map<String, dynamic>;
-                final id = consultant['_id'];
-                final location = consultant['location'];
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+                child: Text(
+                  'LOCATIONS TABLE',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              LocationsTable(
+                rows: data.map((consultant) {
+                  final id = consultant['_id'];
+                  final location = consultant['location'];
 
-                return TableRow(
-                  children: [
-                    TableCell(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(child: Text(id)),
+                  return TableRow(
+                    children: [
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(child: Text(id)),
+                        ),
                       ),
-                    ),
-                    TableCell(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(child: Text(location)),
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(child: Text(location)),
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-        ],
+                    ],
+                  );
+                }).toList(),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
-
 }
