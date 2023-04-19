@@ -28,6 +28,7 @@ class _CsvScreenState extends State<CsvScreen> {
     });
   }
 
+//separate function to another folder called network
   Future<Map<String, dynamic>> uploadCsvFile(
       Uint8List fileBytes, String? fileName) async {
     var request = http.MultipartRequest('POST',
@@ -65,36 +66,46 @@ class _CsvScreenState extends State<CsvScreen> {
       appBar: AppBar(
         title: const Text('CSV Upload'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Center(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: _csvTableData(_tableData),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: _csvTableData(_tableData),
+                ),
+                // child: SingleChildScrollView(
+                //   scrollDirection: Axis.vertical,
+                //   child: _csvTableData(_tableData),
+                // ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: isButtonEnabled
-                  ? () {
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AccountsScreen(
-                                    jsonMap:
-                                        uploadCsvFile(fileBytes!, fileName))));
-                      });
-                    }
-                  : null,
-              child: const Text('Send Data to API'),
-            )
-          ],
+              const SizedBox(
+                height: 20,
+              ),
+      
+              ElevatedButton(
+                onPressed: isButtonEnabled
+                    ? () {
+                      //usually don't need set state, furthur state management
+                      //just change the document
+                        setState(() {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AccountsScreen(
+                                      jsonMap:
+                                          uploadCsvFile(fileBytes!, fileName))));
+                        });
+                      }
+                    : null,
+                child: const Text('Send Data to API'),
+              )
+            ],
+          ),
         ),
       ),
       floatingActionButton: Column(
@@ -124,94 +135,110 @@ class _CsvScreenState extends State<CsvScreen> {
   }
 
   Widget _csvTableData(List<dynamic> tableData) {
-    return Table(
-      border: TableBorder.all(color: Colors.grey),
-      columnWidths: const <int, TableColumnWidth>{
-        0: FixedColumnWidth(180),
-        1: FixedColumnWidth(180),
-        2: FixedColumnWidth(180),
-        3: FixedColumnWidth(180),
-        4: FixedColumnWidth(180),
-        5: FixedColumnWidth(180),
-        6: FixedColumnWidth(180),
-        7: FixedColumnWidth(180),
-        8: FixedColumnWidth(180),
-        9: FixedColumnWidth(180),
-      },
-      children: [
-        ...tableData.asMap().entries.map((entry) {
-          int index = entry.key;
-          List<dynamic> rowData = entry.value;
-
-          return TableRow(
-            decoration: BoxDecoration(
-              color: index == 0 ? const Color.fromARGB(255, 207, 207, 207) : null,
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: tableData.length,
+      itemBuilder: (BuildContext context, int index) {
+        List<dynamic> rowData = tableData[index];
+        return Table(
+          border: TableBorder.all(color: Colors.grey),
+          columnWidths: const <int, TableColumnWidth>{
+            0: FlexColumnWidth(),
+            1: FlexColumnWidth(),
+            2: FlexColumnWidth(),
+            3: FlexColumnWidth(),
+          },
+          children: [
+            TableRow(
+              decoration: BoxDecoration(
+                color: index == 0 ? const Color.fromARGB(255, 207, 207, 207) : null,
+              ),
+              children: [
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[0]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[1]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[2]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[3]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[4]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[5]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[6]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[7]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[8]}'),
+                    ),
+                  ),
+                ),
+                TableCell(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('${rowData[9]}'),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            children: <Widget>[
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[0]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[1]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[2]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[3]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[4]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[5]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[6]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[7]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[8]}'),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('${rowData[9]}'),
-                ),
-              ),
-            ],
-          );
-        }).toList(),
-      ],
+          ],
+        );
+      },
     );
   }
 }
