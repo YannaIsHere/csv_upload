@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:csv_upload/widgets/wcf_safety_consultants.dart';
 import 'package:csv_upload/widgets/policy_numbers.dart';
-// import 'safety_consultants_screen.dart';
-// import 'locations_screen.dart';
+import 'package:csv_upload/dialogs/safety_consultants_dialog.dart';
+import 'package:csv_upload/dialogs/locations_dialog.dart';
 
-
-class AccountsScreen extends StatelessWidget{
+class AccountsScreen extends StatelessWidget {
   final Future<Map<String, dynamic>> jsonMap;
   const AccountsScreen({Key? key, required this.jsonMap}) : super(key: key);
 
@@ -36,38 +35,34 @@ class AccountsScreen extends StatelessWidget{
                 }
               }),
             ),
-            // Center(
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: [
-            //       ElevatedButton(
-            //         onPressed: () {
-            //           setState(() {
-            //             Navigator.push(
-            //                 context,
-            //                 MaterialPageRoute(
-            //                     builder: (context) =>
-            //                         SafetyConsultantsScreen(jsonMap: _jsonMap)));
-            //           });
-            //         },
-            //         child: const Text('Safety Consultants'),
-            //       ),
-            //       const SizedBox(width: 20,),
-            //       ElevatedButton(
-            //         onPressed: () {
-            //           setState(() {
-            //             Navigator.push(
-            //                 context,
-            //                 MaterialPageRoute(
-            //                     builder: (context) =>
-            //                         LocationsScreen(jsonMap: _jsonMap)));
-            //           });
-            //         },
-            //         child: const Text('Locations'),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            SafetyConsultantsDialog(jsonMap: jsonMap),
+                      );
+                    },
+                    child: const Text('Safety Consultants'),
+                  ),
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            LocationsDialog(jsonMap: jsonMap),
+                      );
+                    },
+                    child: const Text('Locations'),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

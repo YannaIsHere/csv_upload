@@ -1,49 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:csv_upload/widgets/safety_consultants_table.dart';
 
-class SafetyConsultantsScreen extends StatefulWidget {
+class SafetyConsultantsDialog extends StatelessWidget {
   final Future<Map<String, dynamic>> jsonMap;
-  const SafetyConsultantsScreen({super.key, required this.jsonMap});
 
-  @override
-  State<SafetyConsultantsScreen> createState() =>
-      _SafetyConsultantsScreenState();
-}
-
-class _SafetyConsultantsScreenState extends State<SafetyConsultantsScreen> {
-  late final Future<Map<String, dynamic>> _jsonMap;
-
-  @override
-  void initState() {
-    _jsonMap = widget.jsonMap;
-    super.initState();
-  }
+  const SafetyConsultantsDialog({Key? key, required this.jsonMap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Title(
-          color: Colors.blue,
-          child: const Text('Safety Consultants Page'),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: _jsonMap,
-          builder: ((context, snapshot) {
-            if (snapshot.hasData) {
-              final jsonData = snapshot.data!;
-              final data =
-                  jsonData['data']['safetyConsultants'] as List<dynamic>;
-              return _safetyConsultantsInformation(data);
-            } else if (snapshot.hasError) {
-              return Text('Error loading data: ${snapshot.error}');
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          }),
-        ),
+    return Dialog(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: SingleChildScrollView(
+              child: FutureBuilder(
+                future: jsonMap,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    final jsonData = snapshot.data!;
+                    final data =
+                        jsonData['data']['safetyConsultants'] as List<dynamic>;
+                    return _safetyConsultantsInformation(data);
+                  } else if (snapshot.hasError) {
+                    return Text('Error loading data: ${snapshot.error}');
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+        ],
       ),
     );
   }

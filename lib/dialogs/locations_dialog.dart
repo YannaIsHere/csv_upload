@@ -1,52 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:csv_upload/widgets/locations_table.dart';
 
-class LocationsScreen extends StatefulWidget {
+class LocationsDialog extends StatelessWidget {
   final Future<Map<String, dynamic>> jsonMap;
-  const LocationsScreen({super.key, required this.jsonMap});
 
-  @override
-  State<LocationsScreen> createState() => _LocationsScreenState();
-}
-
-class _LocationsScreenState extends State<LocationsScreen> {
-  late final Future<Map<String, dynamic>> _jsonMap;
-
-  @override
-  void initState() {
-    _jsonMap = widget.jsonMap;
-    super.initState();
-  }
+  const LocationsDialog({Key? key, required this.jsonMap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Title(
-          color: Colors.blue,
-          child: const Text('Locations Page'),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: FutureBuilder(
-          future: _jsonMap,
-          builder: ((context, snapshot) {
-            if (snapshot.hasData) {
-              final jsonData = snapshot.data!;
-              final data = jsonData['data']['locations'] as List<dynamic>;
-              return _safetyConsultantsInformation(data);
-            } else if (snapshot.hasError) {
-              return Text('Error loading data: ${snapshot.error}');
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          }),
-        ),
+    return Dialog(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: SingleChildScrollView(
+              child: FutureBuilder(
+                future: jsonMap,
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    final jsonData = snapshot.data!;
+                    final data = jsonData['data']['locations'] as List<dynamic>;
+                    return _locationsInformation(data);
+                  } else if (snapshot.hasError) {
+                    return Text('Error loading data: ${snapshot.error}');
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _safetyConsultantsInformation(List<dynamic> data){
+  Widget _locationsInformation(List<dynamic> data){
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -93,4 +92,5 @@ class _LocationsScreenState extends State<LocationsScreen> {
       ),
     );
   }
+
 }

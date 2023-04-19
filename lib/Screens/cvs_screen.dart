@@ -18,13 +18,15 @@ class _CsvScreenState extends State<CsvScreen> {
   late Uint8List file;
   late String? fileName;
   Uint8List? fileBytes;
-  bool isButtonEnabled = false;
+  bool isButtonEnabledAPI = false;
+  bool isButtonEnabledUpload = true;
   late bool _displayAccountsScreen = false;
 
   void _loadCSVData(String csvData) {
     List<List<dynamic>> csvTable = const CsvToListConverter().convert(csvData);
     setState(() {
       _tableData = csvTable;
+      isButtonEnabledUpload = false;
     });
   }
 
@@ -36,7 +38,7 @@ class _CsvScreenState extends State<CsvScreen> {
       PlatformFile file = result.files.first;
       String csvData = String.fromCharCodes(file.bytes!);
       _loadCSVData(csvData);
-      isButtonEnabled = true;
+      isButtonEnabledAPI = true;
     } else {
       return;
     }
@@ -66,7 +68,7 @@ class _CsvScreenState extends State<CsvScreen> {
               ),
       
               ElevatedButton(
-                onPressed: isButtonEnabled
+                onPressed: isButtonEnabledAPI
                     ? () {
                         setState(() {
                           _displayAccountsScreen = !_displayAccountsScreen;
@@ -84,8 +86,10 @@ class _CsvScreenState extends State<CsvScreen> {
         children: [
           FloatingActionButton(
             heroTag: 'uploadCSV',
-            onPressed: _openFileExplorer,
+            onPressed: isButtonEnabledUpload ? _openFileExplorer : null,
             tooltip: 'Upload CSV',
+            backgroundColor: isButtonEnabledUpload ? Colors.blue : Colors.grey[500],
+            foregroundColor: isButtonEnabledUpload ? Colors.white : Colors.grey[200],
             child: const Icon(Icons.upload_file),
           ),
           const SizedBox(height: 10),
@@ -94,7 +98,8 @@ class _CsvScreenState extends State<CsvScreen> {
             onPressed: () {
               setState(() {
                 _tableData = [];
-                isButtonEnabled = false;
+                isButtonEnabledAPI = false;
+                isButtonEnabledUpload = true;
                 _displayAccountsScreen = false;
               });
             },
